@@ -12,6 +12,8 @@ namespace MovieDatabase.Models
         public int Year { get; set; }
         public string Genre { get; set; }
         public string Image { get; set; }
+        public string enableEdit { get; set; }
+        public string enableDelete { get; set; }
         public virtual List<String> Actors { get; set; }
 
         public JSONMovie (Movie movie)

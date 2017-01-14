@@ -27,20 +27,22 @@
             </tr>
             <tr ng-repeat="m in movies.data">
                 <td class="hidden">{{m.id}}</td>
-                <td ng-hide="editEnabled">{{m.Name}}</td>
-                <td ng-hide="editEnabled">{{m.Year}}</td>
-                <td ng-hide="editEnabled">{{m.Genre}}</td>
-                <td ng-hide="editEnabled" ng-repeat="a in m.Actors">{{a}}</td>
+                <td ng-hide="m.editEnabled">{{m.Name}}</td>
+                <td ng-hide="m.editEnabled">{{m.Year}}</td>
+                <td ng-hide="m.editEnabled">{{m.Genre}}</td>
+                <td ng-hide="m.editEnabled" ng-repeat="a in m.Actors">{{a}}</td>
                 
-                <td ng-hide="editEnabled"><button class="btn btn-warning" ng-click="enableEdit()">Edit Movie</button></td>
-                <td ng-show="editEnabled"><input ng-model="m.Name" ng-show="editEnabled"/></td>
-                <td ng-show="editEnabled"><input ng-model="m.Year" ng-show="editEnabled" type="number"  /></td>
-                <td ng-show="editEnabled"><input ng-model="m.Genre" ng-show="editEnabled" /></td>
+                <td ng-hide="m.editEnabled || m.deleteEnabled"><button class="btn btn-warning" ng-click="enableEdit(m)">Edit Movie</button></td>
+                <td ng-show="m.editEnabled"><input ng-model="m.Name" ng-show="m.editEnabled"/></td>
+                <td ng-show="m.editEnabled"><input ng-model="m.Year" ng-show="m.editEnabled" type="number"  /></td>
+                <td ng-show="m.editEnabled"><input ng-model="m.Genre" ng-show="m.editEnabled" /></td>
 
-                <td ng-show="editEnabled"><button class="btn btn-success" ng-click="editMovie(m)">Save</button></td>
-                <td ng-show="editEnabled"><button class="btn btn-warning" ng-click="disableEdit()">Cancel</button></td>
+                <td ng-show="m.editEnabled"><button class="btn btn-success" ng-click="editMovie(m)">Save</button></td>
+                <td ng-show="m.editEnabled"><button class="btn btn-warning" ng-click="disableEdit(m)">Cancel</button></td>
                 
-                <td ng-hide="editEnabled"><button class="btn btn-danger" ng-click="deleteMovie(m)">Delete</button></td>
+                <td ng-hide="m.editEnabled || m.deleteEnabled"><button class="btn btn-danger" ng-click="enableDelete(m)">Delete</button></td>
+                <td ng-show="m.deleteEnabled"><button class="btn btn-danger" ng-click="deleteMovie(m)">Delete</button></td>
+                <td ng-show="m.deleteEnabled"><button class="btn btn-success" ng-click="disableDelete(m)">Cancel</button></td>
             </tr>
         </table>
     </div>

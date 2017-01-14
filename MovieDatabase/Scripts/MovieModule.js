@@ -24,19 +24,25 @@ MovieApp.controller('MovieController', function ($scope, MovieService) {
             console.log(movie + "deleted");
         })
     }
-    $scope.enableEdit = function () {
-        $scope.editEnabled = true;
+    $scope.enableDelete = function (movie) {
+        movie.deleteEnabled = true;
     }
-    $scope.disableEdit = function () {
-        $scope.editEnabled = false;
+    $scope.disableDelete = function (movie) {
+        movie.deleteEnabled = false;
+    }
+    $scope.enableEdit = function (movie) {
+        movie.editEnabled = true;
+    }
+    $scope.disableEdit = function (movie) {
+        movie.editEnabled = false;
         getMovies();
     }
     $scope.editMovie = function editMovie(movie) {
         MovieService.editMovie(movie)
         .then(function () {
+            movie.editEnabled = false;
             getMovies();
             console.log(movie + "edited");
-            $scope.diableEdit();
         })
     }
 });
