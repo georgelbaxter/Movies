@@ -24,7 +24,7 @@ namespace MovieDatabase.Controllers
             return View();
         }
 
-        [System.Web.Mvc.HttpGet]
+        [System.Web.Http.HttpGet]
         public string GetMovies()
         {
             var movieList = db.Movies.ToList();
@@ -64,6 +64,15 @@ namespace MovieDatabase.Controllers
             db.Movies.Remove(movieToDelete);
             db.SaveChanges();
 
+            return GetMovies();
+        }
+
+        [System.Web.Http.HttpPut]
+        public string EditMovie (JSONMovie movieToEdit)
+        {
+            Movie movieBeingEdited = new Movie(movieToEdit);
+            db.Entry(movieBeingEdited).State = EntityState.Modified;
+            db.SaveChanges();
             return GetMovies();
         }
 
