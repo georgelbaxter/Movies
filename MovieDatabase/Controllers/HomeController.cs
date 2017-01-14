@@ -11,7 +11,7 @@ using System.Web.Http.Description;
 using MovieDatabase.Models;
 using System.Web;
 using System.Web.Mvc;
-
+using Newtonsoft.Json;
 
 namespace MovieDatabase.Controllers
 {
@@ -21,8 +21,18 @@ namespace MovieDatabase.Controllers
 
         public ActionResult Index()
         {
-            ViewData.Model = db.Movies.ToList();
             return View();
+        }
+
+        public string GetMovies()
+        {
+            var movieList = db.Movies.ToList();
+
+            List<JSONMovie> JSONMovieList = new List<JSONMovie>();
+            foreach (Movie movie in movieList)
+                JSONMovieList.Add(new JSONMovie(movie));
+
+            return JsonConvert.SerializeObject(JSONMovieList);
         }
 
     }

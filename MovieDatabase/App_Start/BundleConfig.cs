@@ -17,9 +17,9 @@ namespace MovieDatabase
                 "~/Scripts/jquery.unobtrusive*",
                 "~/Scripts/jquery.validate*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
-                "~/Scripts/knockout-{version}.js",
-                "~/Scripts/knockout.validation.js"));
+            bundles.Add(new ScriptBundle("~/bundles/angular").Include(
+                "~/Scripts/angular.min.js",
+                "~/Scripts/movieModule.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                 "~/Scripts/sammy-{version}.js",
@@ -41,11 +41,6 @@ namespace MovieDatabase
             bundles.Add(new StyleBundle("~/Content/css").Include(
                  "~/Content/bootstrap.css",
                  "~/Content/Site.css"));
-
-            bundles.Add(new ScriptBundle("~/bundles/binding").Include(
-                "~/Scripts/app.js",
-                "~/Scripts/app.services.js"));
-
         }
     }
 }
