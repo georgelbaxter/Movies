@@ -13,5 +13,23 @@ namespace MovieDatabase.Models
         public string Genre { get; set; }
         public string Image { get; set; }
         public virtual List<Actor> Actors { get; set; }
+
+        public Movie()
+        {
+            Actors = new List<Actor>();
+        }
+
+        public Movie(JSONMovie inputMovie)
+        {
+            Id = inputMovie.Id;
+            Name = inputMovie.Name;
+            Year = inputMovie.Year;
+            Genre = inputMovie.Genre;
+            Image = inputMovie.Image;
+            foreach (string actor in inputMovie.Actors)
+            {
+                Actors.Add(new Actor() { Name = actor });
+            }
+        }
     }
 }

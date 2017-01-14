@@ -8,8 +8,14 @@ MovieApp.controller('MovieController', function ($scope, MovieService) {
             .then(function (movs) {
                 $scope.movies = movs;
                 console.log($scope.movies);
-                console.log("Made it to line 11");
             })
+    }
+    $scope.createMovie = function createMovie() {
+        MovieService.createMovie($scope.movieToCreate)
+        .then(function () {
+            getMovies();
+            console.log(movieToCreate + "added");
+        })
     }
 });
 
@@ -19,6 +25,10 @@ MovieApp.factory('MovieService', ['$http', function ($http) {
 
     MovieService.getMovies = function () {
         return $http.get('/Home/GetMovies');
+    };
+
+    MovieService.createMovie = function (movieToCreate) {
+        return $http.post('/Home/CreateMovie', movieToCreate);
     };
 
     return MovieService;

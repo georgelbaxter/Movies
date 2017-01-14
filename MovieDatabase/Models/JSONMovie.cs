@@ -22,8 +22,14 @@ namespace MovieDatabase.Models
             Genre = movie.Genre ?? string.Empty;
             Image = movie.Image ?? string.Empty;
             Actors = new List<string>();
-            foreach (Actor actor in movie.Actors)
-                Actors.Add(actor.Name);
+            if(movie.Actors != null && movie.Actors.Count > 0)
+                foreach (Actor actor in movie.Actors)
+                    Actors.Add(actor.Name);
+        }
+
+        public JSONMovie ()
+        {
+            Actors = new List<string>();
         }
     }
 }

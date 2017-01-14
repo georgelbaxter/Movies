@@ -24,6 +24,7 @@ namespace MovieDatabase.Controllers
             return View();
         }
 
+        [System.Web.Mvc.HttpGet]
         public string GetMovies()
         {
             var movieList = db.Movies.ToList();
@@ -33,6 +34,27 @@ namespace MovieDatabase.Controllers
                 JSONMovieList.Add(new JSONMovie(movie));
 
             return JsonConvert.SerializeObject(JSONMovieList);
+        }
+        
+        [System.Web.Http.HttpPost]
+        public string CreateMovie(JSONMovie newMovie)
+        {
+            Movie movie = new Movie(newMovie);
+            if (movie != null)
+            {
+                db.Movies.Add(movie);
+                if (movie.Actors != null && movie.Actors.Count > 0)
+                {
+                    foreach (Actor actor in movie.Actors)
+                    {
+                        if (!db.Actors.Contains(actor))
+                            db.Actors.Add(actor);
+                    }
+                }
+                db.SaveChanges();
+            }
+            //return the updated database to redraw
+            return GetMovies();
         }
 
     }
