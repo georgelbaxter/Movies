@@ -57,5 +57,15 @@ namespace MovieDatabase.Controllers
             return GetMovies();
         }
 
+        [System.Web.Http.HttpDelete]
+        public string DeleteMovie(int id)
+        {
+            Movie movieToDelete = db.Movies.Where(m => m.Id == id).ToList().First();
+            db.Movies.Remove(movieToDelete);
+            db.SaveChanges();
+
+            return GetMovies();
+        }
+
     }
 }

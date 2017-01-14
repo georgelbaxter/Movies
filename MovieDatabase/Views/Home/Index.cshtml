@@ -23,12 +23,15 @@
                 <th>Year</th>
                 <th>Genre</th>
                 <th colspan="4">Actors</th>
+                <th class="pull-right"></th>
             </tr>
             <tr ng-repeat="m in movies.data">
+                <td class="hidden">{{m.id}}</td>
                 <td>{{m.Name}}</td>
                 <td>{{m.Year}}</td>
                 <td>{{m.Genre}}</td>
                 <td ng-repeat="a in m.Actors">{{a}}</td>
+                <td><button class="btn btn-danger" ng-click="deleteMovie(m)">Delete</button></td>
             </tr>
         </table>
     </div>

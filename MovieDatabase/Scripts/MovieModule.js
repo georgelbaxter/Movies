@@ -17,6 +17,14 @@ MovieApp.controller('MovieController', function ($scope, MovieService) {
             console.log(movieToCreate + "added");
         })
     }
+    $scope.deleteMovie = function deleteMovie(movie) {
+        var index = $scope.movies.data.indexOf(movie);
+        MovieService.deleteMovie(movie.Id)
+            .then(function () {
+            getMovies();
+            console.log(movie + "deleted");
+        })
+    }
 });
 
 MovieApp.factory('MovieService', ['$http', function ($http) {
@@ -29,6 +37,10 @@ MovieApp.factory('MovieService', ['$http', function ($http) {
 
     MovieService.createMovie = function (movieToCreate) {
         return $http.post('/Home/CreateMovie', movieToCreate);
+    };
+
+    MovieService.deleteMovie = function (movieToDeleteId) {
+        return $http.delete('/Home/DeleteMovie', { params: { id: movieToDeleteId } });
     };
 
     return MovieService;
