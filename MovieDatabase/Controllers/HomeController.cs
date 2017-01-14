@@ -43,14 +43,14 @@ namespace MovieDatabase.Controllers
             if (movie != null)
             {
                 db.Movies.Add(movie);
-                if (movie.Actors != null && movie.Actors.Count > 0)
-                {
-                    foreach (Actor actor in movie.Actors)
-                    {
-                        if (!db.Actors.Contains(actor))
-                            db.Actors.Add(actor);
-                    }
-                }
+                //if (movie.Actors != null && movie.Actors.Count > 0)
+                //{
+                //    foreach (Actor actor in movie.Actors)
+                //    {
+                //        if (!db.Actors.Contains(actor))
+                //            db.Actors.Add(actor);
+                //    }
+                //}
                 db.SaveChanges();
             }
             //return the updated database to redraw

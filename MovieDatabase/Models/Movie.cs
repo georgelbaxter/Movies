@@ -26,6 +26,7 @@ namespace MovieDatabase.Models
             Year = inputMovie.Year;
             Genre = inputMovie.Genre;
             Image = inputMovie.Image;
+            Actors = new List<Actor>();
             foreach (string actor in inputMovie.Actors)
             {
                 Actors.Add(new Actor() { Name = actor });
