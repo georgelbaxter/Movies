@@ -12,7 +12,7 @@ MovieApp.controller('MovieController', function ($scope, MovieService) {
     }
 
     $scope.createMovie = function createMovie() {
-        $scope.movieToCreate.Actors = $scope.movieToCreate.Actors.split(',')
+        $scope.movieToCreate.Actors = $scope.movieToCreate.Actors.split(', ')
         MovieService.createMovie($scope.movieToCreate)
         .then(function () {
             getMovie();
@@ -29,7 +29,6 @@ MovieApp.controller('MovieController', function ($scope, MovieService) {
     }
 
     $scope.editMovie = function editMovie(movie) {
-        movie.Actors = movie.Actors.split(',')
         MovieService.editMovie(movie)
         .then(function () {
             movie.editEnabled = false;
@@ -76,7 +75,8 @@ MovieApp.factory('MovieService', ['$http', function ($http) {
     };
 
     MovieService.editMovie = function (movieToEdit) {
-        return $http.put('Home/EditMovie', angular.toJson(movieToEdit));
+        var movie = angular.toJson(movieToEdit);
+        return $http.put('Home/EditMovie', movie);
     };
 
     return MovieService;

@@ -3,49 +3,87 @@
     <div ng-controller="MovieController" class="row">
         <div class="col-md-8">
             <h2>Your Movies:</h2>
-            <div></div>
-            <a role="button" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">
+            <a role="button" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch" class="search-button">
                 <h3>Search</h3>
             </a>
             <div id="collapseSearch" class="collapse row search-area">
                 <div class="col-md-4">
-                    <p>Title: <input ng-model="search.Name" /></p>
-                    <p>Genre: <input ng-model="search.Genre" /> </p>
+                    Title: <br />
+                    <input ng-model="search.Name" tabindex="1" /> <br />
+                    Genre: <br />
+                    <input ng-model="search.Genre" tabindex="3" /> <br />
                 </div>
                 <div class="col-md-1">
-                    <p>Year: <input ng-model="search.Year" /></p>
-                    <p>Actor: <input ng-model="search.Actors" /></p>
+                    Year: <br />
+                    <input ng-model="search.Year" tabindex="2" /> <br />
+                    Actor: <br />
+                    <input ng-model="search.Actors" tabindex="4" /> <br />
                 </div>
             </div>
-            <div ng-repeat="m in movies.data | filter:search:strict">
-                <div class="container movieContainer">
-                    <a role="button" data-toggle="collapse" href="#collapse{{m.Id}}" aria-expanded="false" aria-controls="collapse{{m.Id}}">
-                        <h3><span ng-hide="m.editEnabled">{{m.Name}} - {{m.Year}} ({{m.Genre}})</span></h3>
-                    </a>
-                    <span ng-show="m.editEnabled">
-                        <input ng-model="m.Name" />
-                        <input ng-model="m.Year" type="number" />
-                        <input ng-model="m.Genre" />
-                        <input ng-model="m.Actors" />
-                    </span>
-                    <div id="collapse{{m.Id}}" class="collapse">
-                        <div>
-                            <h3 ng-hide="m.editEnabled">Actors: 
-                            <span class="list-comma" ng-hide="m.editEnabled" >{{m.Actors.join(', ')}} </span></h3>
-                            <button ng-hide="m.editEnabled || m.deleteEnabled" class="btn btn-warning" ng-click="enableEdit(m)">Edit Movie</button>
+            <table class="table">
+                <tr>
+                    <th class="movie-header-col1">Title</th>
+                    <th class="movie-header-col1">Year</th>
+                    <th class="movie-header-col1">Genre</th>
+                    <th class="movie-header-col2">Actors</th>
+                    <th class="movie-header-col3" colspan="2"></th>
+                </tr>
+                <tr ng-repeat="m in movies.data | filter:search:strict">
+                    <td class="movie-col1">
+                        <span ng-hide="m.editEnabled">{{m.Name}}</span>
+                        <span ng-show="m.editEnabled"> <input ng-model="m.Name" C /> </span>
+                    </td>
+                    <td class="movie-col1">
+                        <span ng-hide="m.editEnabled">{{m.Year}}</span>
+                        <span ng-show="m.editEnabled"> <input ng-model="m.Year" type="number" class="movie-col1" /> </span>
+                    </td>
+                    <td class="movie-col1">
+                        <span ng-hide="m.editEnabled">{{m.Genre}}</span>
+                        <span ng-show="m.editEnabled"> <input ng-model="m.Genre" class="movie-col1"/> </span>
+                    </td>
+                    <td class="movie-col2">
+                        <span ng-hide="m.editEnabled">{{m.Actors.join(', ')}}</span>
+                        <span ng-show="m.editEnabled"> <input ng-model="m.Actors" class="movie-col2"/> </span>
+                    </td>
 
-                            <button ng-show="m.editEnabled" class="btn btn-success pull-right" ng-click="editMovie(m)">Save</button>
-                            <button ng-show="m.editEnabled" class="btn btn-warning pull-right" ng-click="disableEdit(m)">Cancel</button>
+                    <td>
+                        <button ng-hide="m.editEnabled || m.deleteEnabled" class="btn btn-warning" ng-click="enableEdit(m)">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                            <span class="sr-only">Edit Movie</span>
+                        </button>
 
-                            <button ng-hide="m.editEnabled || m.deleteEnabled" class="btn btn-danger" ng-click="enableDelete(m)">Delete</></button>
-                            <button ng-show="m.deleteEnabled" class="btn btn-danger" ng-click="deleteMovie(m)">Delete</button>
-                            <button ng-show="m.deleteEnabled" class="btn btn-success" ng-click="disableDelete(m)">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        <button ng-show="m.editEnabled" class="btn btn-success" ng-click="editMovie(m)">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                            <span class="sr-only">Save Edit</span>
+                        </button>
+
+                        <button ng-show="m.deleteEnabled" class="btn btn-danger" ng-click="deleteMovie(m)">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            <span class="sr-only">Confirm Delete</span>
+                        </button>
+                    </td>
+                    <td>
+                        <button ng-hide="m.editEnabled || m.deleteEnabled" class="btn btn-danger" ng-click="enableDelete(m)">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            <span class="sr-only">Delete Movie</span>
+                        </button>
+
+                        <button ng-show="m.editEnabled" class="btn btn-warning" ng-click="disableEdit(m)">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            <span class="sr-only">Edit Movie</span>
+                        </button>
+
+                        <button ng-show="m.deleteEnabled" class="btn btn-success" ng-click="disableDelete(m)">
+                            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                            <span class="sr-only">Cancle Delete</span>
+                        </button>
+                    </td>
+                </tr>
+            </table>
         </div>
+
         <div class="col-md-3 col-md-offset-1">
+            <br/>
             <h2>Add a Movie</h2>
             <ng-form class="add-movie-form">
                 <div class="form-group row">
