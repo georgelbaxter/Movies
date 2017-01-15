@@ -2,61 +2,73 @@
 
 MovieApp.controller('MovieController', function ($scope, MovieService) {
     
-    getMovies();
-    function getMovies() {
-        MovieService.getMovies()
-            .then(function (movs) {
+    getMovie();
+    function getMovie() {
+        MovieService.getMovie()
+            .then( function (movs) {
                 $scope.movies = movs;
                 console.log($scope.movies);
             })
     }
+
     $scope.createMovie = function createMovie() {
+        $scope.movieToCreate.Actors = $scope.movieToCreate.Actors.split(',')
         MovieService.createMovie($scope.movieToCreate)
         .then(function () {
-            getMovies();
+            getMovie();
             console.log(movieToCreate + "added");
         })
     }
+
     $scope.deleteMovie = function deleteMovie(movie) {
         MovieService.deleteMovie(movie.Id)
             .then(function () {
-            getMovies();
+            getMovie();
             console.log(movie + "deleted");
         })
     }
-    $scope.enableDelete = function (movie) {
-        movie.deleteEnabled = true;
-    }
-    $scope.disableDelete = function (movie) {
-        movie.deleteEnabled = false;
-    }
-    $scope.enableEdit = function (movie) {
-        movie.editEnabled = true;
-    }
-    $scope.disableEdit = function (movie) {
-        movie.editEnabled = false;
-        getMovies();
-    }
+
     $scope.editMovie = function editMovie(movie) {
+        movie.Actors = movie.Actors.split(',')
         MovieService.editMovie(movie)
         .then(function () {
             movie.editEnabled = false;
-            getMovies();
             console.log(movie + "edited");
+            getMovie();
         })
     }
+
+    //button show/hide functions
+    $scope.enableDelete = function (movie) {
+        movie.deleteEnabled = true;
+    }
+
+    $scope.disableDelete = function (movie) {
+        movie.deleteEnabled = false;
+    }
+
+    $scope.enableEdit = function (movie) {
+        movie.editEnabled = true;
+    }
+
+    $scope.disableEdit = function (movie) {
+        getMovie();
+        movie.editEnabled = false;
+    }
+
+
 });
 
 MovieApp.factory('MovieService', ['$http', function ($http) {
     
     var MovieService = {};
 
-    MovieService.getMovies = function () {
-        return $http.get('/Home/GetMovies');
+    MovieService.getMovie = function () {
+        return $http.get('/Home/GetMovie');
     };
 
     MovieService.createMovie = function (movieToCreate) {
-        return $http.post('/Home/CreateMovie', movieToCreate);
+        return $http.post('/Home/CreateMovie', angular.toJson(movieToCreate));
     };
 
     MovieService.deleteMovie = function (movieToDeleteId) {
@@ -64,7 +76,7 @@ MovieApp.factory('MovieService', ['$http', function ($http) {
     };
 
     MovieService.editMovie = function (movieToEdit) {
-        return $http.put('Home/EditMovie', movieToEdit);
+        return $http.put('Home/EditMovie', angular.toJson(movieToEdit));
     };
 
     return MovieService;

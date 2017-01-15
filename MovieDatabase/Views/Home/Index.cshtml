@@ -1,49 +1,63 @@
 ﻿
 <body ng-app="MovieApp">
-    <div ng-controller="MovieController">
-        <br />
-        <div>
-            <ng-form>
+    <div ng-controller="MovieController" class="row">
+        <div class="col-md-8">
+            <h2>Your Movies:</h2>
+            <div></div>
+            <a role="button" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">
+                <h3>Search</h3>
+            </a>
+            <div id="collapseSearch" class="collapse row search-area">
+                <div class="col-md-4">
+                    <p>Title: <input ng-model="search.Name" /></p>
+                    <p>Genre: <input ng-model="search.Genre" /> </p>
+                </div>
+                <div class="col-md-1">
+                    <p>Year: <input ng-model="search.Year" /></p>
+                    <p>Actor: <input ng-model="search.Actors" /></p>
+                </div>
+            </div>
+            <div ng-repeat="m in movies.data | filter:search:strict">
+                <div class="container movieContainer">
+                    <a role="button" data-toggle="collapse" href="#collapse{{m.Id}}" aria-expanded="false" aria-controls="collapse{{m.Id}}">
+                        <h3><span ng-hide="m.editEnabled">{{m.Name}} - {{m.Year}} ({{m.Genre}})</span></h3>
+                    </a>
+                    <span ng-show="m.editEnabled">
+                        <input ng-model="m.Name" />
+                        <input ng-model="m.Year" type="number" />
+                        <input ng-model="m.Genre" />
+                        <input ng-model="m.Actors" />
+                    </span>
+                    <div id="collapse{{m.Id}}" class="collapse">
+                        <div>
+                            <h3 ng-hide="m.editEnabled">Actors: 
+                            <span class="list-comma" ng-hide="m.editEnabled" >{{m.Actors.join(', ')}} </span></h3>
+                            <button ng-hide="m.editEnabled || m.deleteEnabled" class="btn btn-warning" ng-click="enableEdit(m)">Edit Movie</button>
+
+                            <button ng-show="m.editEnabled" class="btn btn-success pull-right" ng-click="editMovie(m)">Save</button>
+                            <button ng-show="m.editEnabled" class="btn btn-warning pull-right" ng-click="disableEdit(m)">Cancel</button>
+
+                            <button ng-hide="m.editEnabled || m.deleteEnabled" class="btn btn-danger" ng-click="enableDelete(m)">Delete</></button>
+                            <button ng-show="m.deleteEnabled" class="btn btn-danger" ng-click="deleteMovie(m)">Delete</button>
+                            <button ng-show="m.deleteEnabled" class="btn btn-success" ng-click="disableDelete(m)">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-md-offset-1">
+            <h2>Add a Movie</h2>
+            <ng-form class="add-movie-form">
                 <div class="form-group row">
-                    Title: <input type="text" ng-model="movieToCreate.Name" /> &nbsp; 
-                    Year: <input type="number" ng-model="movieToCreate.Year" /> &nbsp;
-                    Genre: <input type="text" ng-model="movieToCreate.Genre" />
+                    <span class="row">Title: <input class="pull-right" type="text" ng-model="movieToCreate.Name" /></span>
+                    <span class="row">Year: <input class="pull-right" type="number" ng-model="movieToCreate.Year" /> </span>
+                    <span class="row">Genre: <input class="pull-right" type="text" ng-model="movieToCreate.Genre" /></span>
+                    <span class="row">Actors: <input class="pull-right" type="text" ng-model="movieToCreate.Actors" /></span>
                 </div>
                 <div class="form-group row">
-                    Actors: <input class="actorInput" type="text" ng-model="movieToCreate.Actors" />
-                </div> 
-                <div class="form-group row">
-                    <button id="btnCreateMovie" class="btn btn-default" ng-click="createMovie()">Add Movie</button>
+                    <button id="btnCreateMovie" class="btn btn-success" ng-click="createMovie()">Add Movie</button>
                 </div>
             </ng-form>
         </div>
-        <table class="table">
-            <tr>
-                <th>Title</th>
-                <th>Year</th>
-                <th>Genre</th>
-                <th colspan="4">Actors</th>
-                <th class="pull-right"></th>
-            </tr>
-            <tr ng-repeat="m in movies.data">
-                <td class="hidden">{{m.id}}</td>
-                <td ng-hide="m.editEnabled">{{m.Name}}</td>
-                <td ng-hide="m.editEnabled">{{m.Year}}</td>
-                <td ng-hide="m.editEnabled">{{m.Genre}}</td>
-                <td ng-hide="m.editEnabled" ng-repeat="a in m.Actors">{{a}}</td>
-                
-                <td ng-hide="m.editEnabled || m.deleteEnabled"><button class="btn btn-warning" ng-click="enableEdit(m)">Edit Movie</button></td>
-                <td ng-show="m.editEnabled"><input ng-model="m.Name" ng-show="m.editEnabled"/></td>
-                <td ng-show="m.editEnabled"><input ng-model="m.Year" ng-show="m.editEnabled" type="number"  /></td>
-                <td ng-show="m.editEnabled"><input ng-model="m.Genre" ng-show="m.editEnabled" /></td>
-
-                <td ng-show="m.editEnabled"><button class="btn btn-success" ng-click="editMovie(m)">Save</button></td>
-                <td ng-show="m.editEnabled"><button class="btn btn-warning" ng-click="disableEdit(m)">Cancel</button></td>
-                
-                <td ng-hide="m.editEnabled || m.deleteEnabled"><button class="btn btn-danger" ng-click="enableDelete(m)">Delete</button></td>
-                <td ng-show="m.deleteEnabled"><button class="btn btn-danger" ng-click="deleteMovie(m)">Delete</button></td>
-                <td ng-show="m.deleteEnabled"><button class="btn btn-success" ng-click="disableDelete(m)">Cancel</button></td>
-            </tr>
-        </table>
     </div>
 </body>

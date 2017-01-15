@@ -25,17 +25,17 @@ namespace MovieDatabase.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        public string GetMovies()
+        public string GetMovie()
         {
             var movieList = db.Movies.ToList();
 
-            List<JSONMovie> JSONMovieList = new List<JSONMovie>();
+            List<JSONMovie> resultList = new List<JSONMovie>();
             foreach (Movie movie in movieList)
-                JSONMovieList.Add(new JSONMovie(movie));
+                resultList.Add(new JSONMovie(movie));
 
-            return JsonConvert.SerializeObject(JSONMovieList);
+            return JsonConvert.SerializeObject(resultList);
         }
-        
+
         [System.Web.Http.HttpPost]
         public string CreateMovie(JSONMovie newMovie)
         {
@@ -54,7 +54,7 @@ namespace MovieDatabase.Controllers
                 db.SaveChanges();
             }
             //return the updated database to redraw
-            return GetMovies();
+            return GetMovie();
         }
 
         [System.Web.Http.HttpDelete]
@@ -64,7 +64,7 @@ namespace MovieDatabase.Controllers
             db.Movies.Remove(movieToDelete);
             db.SaveChanges();
 
-            return GetMovies();
+            return GetMovie();
         }
 
         [System.Web.Http.HttpPut]
@@ -73,7 +73,7 @@ namespace MovieDatabase.Controllers
             Movie movieBeingEdited = new Movie(movieToEdit);
             db.Entry(movieBeingEdited).State = EntityState.Modified;
             db.SaveChanges();
-            return GetMovies();
+            return GetMovie();
         }
 
     }

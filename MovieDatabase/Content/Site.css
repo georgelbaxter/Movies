@@ -17,7 +17,6 @@
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
 select,
 textarea {
     max-width: 280px;
@@ -33,4 +32,44 @@ textarea {
         float: none;
         padding: 10px 15px;
     }
+}
+
+body {
+    margin: 0;
+    padding-top: 0;
+    background-color: #DFE
+}
+
+.movieContainer {
+    border: 2px solid;
+    border-radius: 8px;
+    margin: 2px;
+    padding-bottom: 3px;
+}
+
+input {
+    width: 220px;
+}
+
+.top-bar {
+    background-color: #021;
+    color: #DDD;
+    text-align: center;
+    font-weight: bolder;
+    height: 80px;
+    padding: 5px;
+}
+
+.search-area p {
+    font-size: larger;
+    font-weight: bold;
+    padding: 1px;
+    display:inline-block;
+}
+
+.list-comma::before {
+  content: ', ';
+}
+.list-comma:first-child::before {
+  content: '';
 }
