@@ -1,31 +1,32 @@
 ﻿var MovieApp = angular.module('MovieApp', [])
 
 MovieApp.controller('MovieController', function ($scope, MovieService) {
-    
     getMovie();
+
     function getMovie() {
         MovieService.getMovie()
-            .then( function (movs) {
+            .then(function (movs) {
                 $scope.movies = movs;
                 console.log($scope.movies);
             })
     }
 
-    $scope.createMovie = function createMovie() {
-        $scope.movieToCreate.Actors = $scope.movieToCreate.Actors.split(', ')
-        MovieService.createMovie($scope.movieToCreate)
+    $scope.createMovie = function createMovie(movie) {
+        MovieService.createMovie(movie)
         .then(function () {
             getMovie();
-            console.log(movieToCreate + "added");
+            console.log(movie + "added");
+            $scope.addMovieForm.$setPristine();
+            $scope.movieToCreate = {};
         })
     }
 
     $scope.deleteMovie = function deleteMovie(movie) {
         MovieService.deleteMovie(movie.Id)
             .then(function () {
-            getMovie();
-            console.log(movie + "deleted");
-        })
+                getMovie();
+                console.log(movie + "deleted");
+            })
     }
 
     $scope.editMovie = function editMovie(movie) {
@@ -59,7 +60,7 @@ MovieApp.controller('MovieController', function ($scope, MovieService) {
 });
 
 MovieApp.factory('MovieService', ['$http', function ($http) {
-    
+
     var MovieService = {};
 
     MovieService.getMovie = function () {

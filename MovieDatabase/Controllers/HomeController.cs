@@ -42,15 +42,23 @@ namespace MovieDatabase.Controllers
             Movie movie = new Movie(newMovie);
             if (movie != null)
             {
-                db.Movies.Add(movie);
                 if (movie.Actors != null && movie.Actors.Count > 0)
                 {
+                    List<Actor> actorList = db.Actors.ToList();
                     foreach (Actor actor in movie.Actors)
                     {
-                        if (!db.Actors.Contains(actor))
+                        if (actorList.Where(a => a.Name == actor.Name).ToList().Count == 0)
+                        {
+                            actor.Id = actorList.OrderBy(a => a.Id).ToList().Last().Id + 1;
                             db.Actors.Add(actor);
+                        }
+                        else
+                        {
+                            actor.Id = actorList.Where(a => a.Name == actor.Name).ToList().First().Id;
+                        }
                     }
                 }
+                db.Movies.Add(movie);
                 db.SaveChanges();
             }
             //return the updated database to redraw
@@ -68,7 +76,7 @@ namespace MovieDatabase.Controllers
         }
 
         [System.Web.Http.HttpPut]
-        public string EditMovie (JSONMovie movieToEdit)
+        public string EditMovie(JSONMovie movieToEdit)
         {
             Movie movieBeingEdited = new Movie(movieToEdit);
             db.Entry(movieBeingEdited).State = EntityState.Modified;
