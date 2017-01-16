@@ -15,7 +15,7 @@ namespace MovieDatabase.Models
         public string enableEdit { get; set; }
         public string enableDelete { get; set; }
         public string editEnabled { get; set; }
-        public virtual List<String> Actors { get; set; }
+        public string Actors { get; set; }
 
         public JSONMovie (Movie movie)
         {
@@ -24,15 +24,12 @@ namespace MovieDatabase.Models
             Year = movie.Year;
             Genre = movie.Genre ?? string.Empty;
             Image = movie.Image ?? string.Empty;
-            Actors = new List<string>();
-            if(movie.Actors != null && movie.Actors.Count > 0)
-                foreach (Actor actor in movie.Actors)
-                    Actors.Add(actor.Name);
+            if (movie.Actors != null && movie.Actors.Count > 0)
+                Actors = string.Join(", ", movie.Actors);
         }
 
         public JSONMovie ()
         {
-            Actors = new List<string>();
         }
     }
 }

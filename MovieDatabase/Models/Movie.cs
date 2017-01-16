@@ -26,11 +26,11 @@ namespace MovieDatabase.Models
             Year = inputMovie.Year;
             Genre = inputMovie.Genre;
             Image = inputMovie.Image;
+
             Actors = new List<Actor>();
-            foreach (string actor in inputMovie.Actors)
-            {
-                Actors.Add(new Actor() { Name = actor });
-            }
+            string[] tmpActor = inputMovie.Actors.Split(',');
+            foreach (string actor in tmpActor)
+                Actors.Add(new Actor() { Name = actor.Trim(' ') });
         }
     }
 }

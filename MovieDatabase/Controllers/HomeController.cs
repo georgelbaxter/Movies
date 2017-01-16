@@ -27,7 +27,7 @@ namespace MovieDatabase.Controllers
         [System.Web.Http.HttpGet]
         public string GetMovie()
         {
-            var movieList = db.Movies.ToList();
+            List<Movie> movieList = db.Movies.ToList();
 
             List<JSONMovie> resultList = new List<JSONMovie>();
             foreach (Movie movie in movieList)
@@ -40,27 +40,18 @@ namespace MovieDatabase.Controllers
         public string CreateMovie(JSONMovie newMovie)
         {
             Movie movie = new Movie(newMovie);
-            if (movie != null)
+
+            //add movie to database
+            db.Movies.Add(movie);
+
+            //add actors to the database and save
+            foreach (Actor actor in movie.Actors)
             {
-                if (movie.Actors != null && movie.Actors.Count > 0)
-                {
-                    List<Actor> actorList = db.Actors.ToList();
-                    foreach (Actor actor in movie.Actors)
-                    {
-                        if (actorList.Where(a => a.Name == actor.Name).ToList().Count == 0)
-                        {
-                            actor.Id = actorList.OrderBy(a => a.Id).ToList().Last().Id + 1;
-                            db.Actors.Add(actor);
-                        }
-                        else
-                        {
-                            actor.Id = actorList.Where(a => a.Name == actor.Name).ToList().First().Id;
-                        }
-                    }
-                }
-                db.Movies.Add(movie);
-                db.SaveChanges();
+                actor.MovieId = movie.Id;
+                db.Actors.Add(actor);
             }
+            db.SaveChanges();
+
             //return the updated database to redraw
             return GetMovie();
         }
@@ -68,8 +59,15 @@ namespace MovieDatabase.Controllers
         [System.Web.Http.HttpDelete]
         public string DeleteMovie(int id)
         {
+            //find the movie to delete
             Movie movieToDelete = db.Movies.Where(m => m.Id == id).ToList().First();
+
+            //delete the movie and the actors associated with it
+            db.Actors.RemoveRange(movieToDelete.Actors);
             db.Movies.Remove(movieToDelete);
+            
+
+            //save the changes
             db.SaveChanges();
 
             return GetMovie();
@@ -79,10 +77,47 @@ namespace MovieDatabase.Controllers
         public string EditMovie(JSONMovie movieToEdit)
         {
             Movie movieBeingEdited = new Movie(movieToEdit);
+
+            //get the actors in the movie
+            List<string> actorsInMovie = new List<string>();
+            foreach (Actor actor in movieBeingEdited.Actors)
+                actorsInMovie.Add(actor.Name);
+            List<Actor> actorList = db.Actors.ToList();
+            int minId = actorList.OrderBy(a => a.Id).ToList().Last().Id;
+
+            //remove stranded actors
+            foreach (Actor actor in actorList)
+            {
+                if (actor.MovieId == movieBeingEdited.Id && !actorsInMovie.Contains(actor.Name))
+                {
+                    db.Actors.Remove(db.Actors.Where(a => a.Id == actor.Id).ToList().First());
+                }
+            }
+
+            //set Id movieId on actors in movie
+            for (int i = 0; i < movieBeingEdited.Actors.Count(); i++)
+            {
+                Actor actor = movieBeingEdited.Actors[i];
+                actor.MovieId = movieBeingEdited.Id;
+
+                if (actorList.Where(a => a.Name == actor.Name && a.MovieId == movieBeingEdited.Id).ToList().Count() > 0)
+                {
+                    actor = actorList.Where(a => a.Name == actor.Name && a.MovieId == movieBeingEdited.Id).ToList().First();
+                }
+                else
+                {
+                    actor.Id = minId + 1;
+                    db.Actors.Add(actor);
+                    db.SaveChanges();
+                    minId++;
+                }
+                movieBeingEdited.Actors[i] = actor;
+                db.Actors.Attach(actor);
+            }
+
             db.Entry(movieBeingEdited).State = EntityState.Modified;
             db.SaveChanges();
             return GetMovie();
         }
-
     }
 }

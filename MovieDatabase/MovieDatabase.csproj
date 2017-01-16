@@ -198,11 +198,18 @@
     <Compile Include="Migrations\201701152043528_addMovieActorModel.Designer.cs">
       <DependentUpon>201701152043528_addMovieActorModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701152245131_removingMTMRelationship.cs" />
+    <Compile Include="Migrations\201701152245131_removingMTMRelationship.Designer.cs">
+      <DependentUpon>201701152245131_removingMTMRelationship.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701152253060_nullableMovieId.cs" />
+    <Compile Include="Migrations\201701152253060_nullableMovieId.Designer.cs">
+      <DependentUpon>201701152253060_nullableMovieId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Actor.cs" />
     <Compile Include="Models\JSONMovie.cs" />
     <Compile Include="Models\Movie.cs" />
-    <Compile Include="Models\MovieActors.cs" />
     <Compile Include="Models\MovieDatabaseContext.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -270,6 +277,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201701152043528_addMovieActorModel.resx">
       <DependentUpon>201701152043528_addMovieActorModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701152245131_removingMTMRelationship.resx">
+      <DependentUpon>201701152245131_removingMTMRelationship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701152253060_nullableMovieId.resx">
+      <DependentUpon>201701152253060_nullableMovieId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -76,8 +76,7 @@ MovieApp.factory('MovieService', ['$http', function ($http) {
     };
 
     MovieService.editMovie = function (movieToEdit) {
-        var movie = angular.toJson(movieToEdit);
-        return $http.put('Home/EditMovie', movie);
+        return $http.put('Home/EditMovie', angular.toJson(movieToEdit));
     };
 
     return MovieService;
