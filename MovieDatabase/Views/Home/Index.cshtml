@@ -31,7 +31,7 @@
                 <tr ng-repeat="m in movies.data | filter:search:strict">
                     <td class="movie-col1">
                         <span ng-hide="m.editEnabled">{{m.Name}}</span>
-                        <span ng-show="m.editEnabled"> <input ng-model="m.Name" C /> </span>
+                        <span ng-show="m.editEnabled"> <input ng-model="m.Name" class="movie-col1" required /> </span>
                     </td>
                     <td class="movie-col1">
                         <span ng-hide="m.editEnabled">{{m.Year}}</span>
@@ -87,13 +87,13 @@
             <h2>Add a Movie</h2>
             <ng-form class="add-movie-form" name="addMovieForm" ng-model="movieToCreate">
                 <div class="form-group row">
-                    <span class="row">Title: <input class="pull-right" type="text" ng-model="movieToCreate.Name" /></span>
-                    <span class="row">Year: <input class="pull-right" type="number" ng-model="movieToCreate.Year" /> </span>
-                    <span class="row">Genre: <input class="pull-right" type="text" ng-model="movieToCreate.Genre" /></span>
-                    <span class="row">Actors: <input class="pull-right" type="text" ng-model="movieToCreate.Actors" /></span>
+                    <span class="row">Title: <input class="pull-right" name="Name" type="text" ng-model="movieToCreate.Name" required/></span>
+                    <span class="row">Year: <input class="pull-right" name="Year" type="number" ng-model="movieToCreate.Year" /> </span>
+                    <span class="row">Genre: <input class="pull-right" name="Genre" type="text" ng-model="movieToCreate.Genre" /></span>
+                    <span class="row">Actors: <input class="pull-right" name="Actors" type="text" ng-model="movieToCreate.Actors" /></span>
                 </div>
                 <div class="form-group row">
-                    <button id="btnCreateMovie" class="btn btn-success" ng-click="createMovie(movieToCreate)">Add Movie</button>
+                    <button id="btnCreateMovie" class="btn btn-success" ng-click="createMovie(movieToCreate)" type="submit">Add Movie</button>
                 </div>
             </ng-form>
         </div>

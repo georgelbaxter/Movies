@@ -28,9 +28,12 @@ namespace MovieDatabase.Models
             Image = inputMovie.Image;
 
             Actors = new List<Actor>();
-            string[] tmpActor = inputMovie.Actors.Split(',');
-            foreach (string actor in tmpActor)
-                Actors.Add(new Actor() { Name = actor.Trim(' ') });
+            if (inputMovie.Actors != null)
+            {
+                string[] tmpActor = inputMovie.Actors.Split(',');
+                foreach (string actor in tmpActor)
+                    Actors.Add(new Actor() { Name = actor.Trim(' ') });
+            }
         }
     }
 }

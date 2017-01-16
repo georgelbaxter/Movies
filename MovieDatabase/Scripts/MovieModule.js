@@ -3,6 +3,7 @@
 MovieApp.controller('MovieController', function ($scope, MovieService) {
     getMovie();
 
+    //CRUD functions
     function getMovie() {
         MovieService.getMovie()
             .then(function (movs) {
@@ -12,6 +13,7 @@ MovieApp.controller('MovieController', function ($scope, MovieService) {
     }
 
     $scope.createMovie = function createMovie(movie) {
+        addmovieformNameMissing = false;
         MovieService.createMovie(movie)
         .then(function () {
             getMovie();
@@ -55,8 +57,6 @@ MovieApp.controller('MovieController', function ($scope, MovieService) {
         getMovie();
         movie.editEnabled = false;
     }
-
-
 });
 
 MovieApp.factory('MovieService', ['$http', function ($http) {
@@ -80,5 +80,4 @@ MovieApp.factory('MovieService', ['$http', function ($http) {
     };
 
     return MovieService;
-
 }]);
